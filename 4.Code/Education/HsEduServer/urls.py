@@ -22,15 +22,28 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from HsEdu.Api.WebCenterApi import *
+from HsEdu.Api.ThirePart.WxApiHelp import *
+from HsEdu.Api.Custom.CustomApi import *
 
 urlpatterns = [
     # API接口
     url(r'^admin/', admin.site.urls),
     url(r'^$',WebCenterApi.goHome),
 
-    url(r'^page1.html',WebCenterApi.openPage1),
-    url(r'^page2.html',WebCenterApi.openPage2),
-    url(r'^page3.html',WebCenterApi.openPage3),
-    url(r'^page4.html',WebCenterApi.openPage4),
+    # 启动时微信登录---等待页面
+    url(r'^wait.html',WebCenterApi.openWaitPage),
+
+    # 首页大菜单
+    url(r'^my_message.html',WebCenterApi.openPage1),
+    url(r'^resource_store.html',WebCenterApi.openPage2),
+    url(r'^service_store.html',WebCenterApi.openPage3),
+    url(r'^user_center.html',WebCenterApi.openPage4),
+
+    # 微信授权
+    url(r'^MP_verify_iJqJ8ZXNRFKMeimo.txt', WxApiHelp.getWxAuthData),
+    url(r'^wxauth.html', WxApiHelp.wxA),
+
+    # 客户api
+    url(r'^api/ctm/$',CustomApi.CommandDispatch),
 
 ] + static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)

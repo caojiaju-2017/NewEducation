@@ -76,15 +76,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'HsEduServer.wsgi.application'
 
-DATABASE_NAME = '/opt/datebase/vote.db'
+# DATABASE_NAME = '/opt/datebase/vote.db'
 # DATABASE_NAME = 'vote.db'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'vote',
+        'NAME': 'hsedu',
         'USER': 'root',
-        'PASSWORD': 'Accc-123654',
-        'HOST':'101.200.187.182',
+        'PASSWORD': 'caojj123',
+        'HOST':'www.h-sen.com',
         'PORT': '3306',
     }
 }

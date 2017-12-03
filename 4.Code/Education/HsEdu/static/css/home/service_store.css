@@ -1,0 +1,39 @@
+.list_2 ul
+{
+    @extend .cf;
+}
+
+.list_2 ul li
+{
+    width: 50%;float: left;padding: 1rem 0;
+            outline: 1px solid #ddd;  /*// 引用清理浮动代码片,看不懂请看本人scss相关教程*/
+            background: #fff;  /*// 引用清理浮动代码片,看不懂请看本人scss相关教程*/
+}
+
+.list_2 ul li a
+{
+     display: block;
+                text-decoration: none; // 去除默认下划线
+}
+.list_2 ul li .goods_title,.goods_price
+{
+padding: 0 1rem; // 加上左右内填充,防止文字和边框粘结
+                text-align: center;
+}
+
+.list_2 ul li .goods_photo
+{
+width: 60%;margin: .5rem auto;display: block;
+}
+
+
+
+
+/*// 全站范围内用到的图文基本样式*/
+.goods_title,.goods_price {
+    display: block;position: relative;
+    @include ts(); // 引用文字描白边代码片
+    @include online(1.8rem); // 引用文字超出一行省略号代码片
+}
+.goods_title {color:#000;font-size: 1.2rem;}
+.goods_price {color:#f60;font-size: 1.5rem;font-weight: bold;}

@@ -21,6 +21,8 @@ import uuid
 import re
 import qrcode
 import urllib2
+import requests
+import urlparse
 
 
 from HsPlatform.Sms.HsSmsHelp import *
@@ -33,3 +35,6 @@ from django.db import transaction
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import F
 from django.template import Template, Context
+from HsEdu.models import *
+from HsEdu.Api.PublicService import *
+from HsShareData import *
