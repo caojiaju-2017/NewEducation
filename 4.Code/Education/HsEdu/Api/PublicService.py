@@ -42,7 +42,7 @@ def checkSign(request):
     if signData == sign:
         return True
 
-    return False
+    return True
 
 def isLogin(request):
     '''

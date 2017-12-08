@@ -17,11 +17,9 @@ class CustomApi(object):
             return render(req, 'wait.html', renterDict)
 
         command = req.GET.get('Command').upper()
-        if  command  == "List_Messages".upper():
-            return CustomApi.ListMessages(req)
+        # if  command  == "List_Messages".upper():
+        #     return CustomApi.ListMessages(req)
 
 
-    @staticmethod
-    def ListMessages(request):
 
-        return
+

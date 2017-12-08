@@ -1,105 +1,52 @@
-*{
-    margin:0px;
-    padding: 0px;
-}
-.heading,
-.container,
-.footing{
-    margin: 10px auto;
-}
+.container{
+				font-size: 16px;
+			}
+			.img img{
+				width: 70%;
+			}
+			.title{
+				font-size: 25px;
+				font-weight: bold;
+				margin-bottom:15px;
+			}
+			.content{
+				width: 300px;
+	            overflow: hidden;/*超出部分隐藏*/
+	            white-space: nowrap;/*不换行*/
+	            text-overflow:ellipsis;/*超出部分文字以...显示*/
+			}
+			@media only screen and (max-width:767px){
+				.container{
+					font-size: 14px;
+				}
+				.img img{
+					width: 65px;
+				}
+				.title{
+					font-size: 18px;
+				}
+				.content{
+					width:150px;
+				}
 
-.heading{
-    height: 100px;
-    background-color: red;
-}
-.left,
-.right,
-.main{
-    height: 300px;
-    background-color: yellow;
-}
-.footing{
-    height: 100px;
-    background-color: gray;
-}
-/*<!--media = "only screen and (max-width:640px)"-->*/
-@media screen and (min-width: 960px){
-    .heading,
-    .container,
-    .footing{
-        width:960px;
+			}
+			@media only screen and (max-width:359px){
+				.container{
+					font-size: 12px;
+				}
+				.img img{
+					width: 60px;
+				}
+				.title{
+					width: 122px;
+					font-size: 16px;
+					margin-bottom:10px;
+				}
+				.content{
+					width:150px;
+				}
+				.time{
+					width: 200px;
+				}
+			}
 
-    }
-    .left,
-    .main,
-    .right{
-        float: left;
-        height: 500px;
-    }
-    .left,
-    .right{
-        width:200px;
-
-    }
-    .main{
-        margin: 0px 5px;
-        width:550px;
-    }
-    .container{
-        height: 500px;
-    }
-}
-@media screen and (min-width: 600px) and (max-width: 960px){
-    .heading,
-    .container,
-    .footing{
-        width: 600px;
-
-    }
-    .left,
-    .main{
-        float: left;
-        height:400px;
-
-    }
-    .right{
-        display: none;
-    }
-    .left{
-        width: 160px;
-
-    }
-    .main{
-        width: 435px;
-        margin-left: 5px;
-    }
-    .container{
-        height: 400px;
-    }
-}
-
-@media screen and (max-width: 600px){
-    .heading,
-    .container,
-    .footing{
-        width: 400px;
-    }
-    .left,
-    .right{
-        width: 400px;
-        height: 100px;
-    }
-
-    .main{
-        margin-top: 10px;
-        width:400px;
-        height:200px;
-    }
-    .right{
-        margin-top: 10px;
-
-    }
-    .container{
-        height: 420px;
-    }
-}

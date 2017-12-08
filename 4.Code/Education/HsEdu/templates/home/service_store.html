@@ -1,43 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-<title>list 2</title>
-<link rel="stylesheet" href="../style/style.css">
+    <meta charset="UTF-8">
+    <title>卡片效果</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/home/service_store.css" media="all">
 </head>
 <body>
-<div class="list_2">
-    <ul>
-        <li>
-            <a href="">
-                <img src="../image/goods.jpg" alt="商品图片" class="goods_photo">
-                <h4 class="goods_title">这里是商品标题1</h4>
-                <em class="goods_price">￥4999.00</em>
-            </a>
-        </li>
-        <li>
-            <a href="">
-                <img src="../image/goods.jpg" alt="商品图片" class="goods_photo">
-                <h4 class="goods_title">这里是商品标题2</h4>
-                <em class="goods_price">￥4999.00</em>
-            </a>
-        </li>
-        <li>
-            <a href="">
-                <img src="../image/goods.jpg" alt="商品图片" class="goods_photo">
-                <h4 class="goods_title">这里是商品标题3</h4>
-                <em class="goods_price">￥4999.00</em>
-            </a>
-        </li>
-        <li>
-            <a href="">
-                <img src="../image/goods.jpg" alt="商品图片" class="goods_photo">
-                <h4 class="goods_title">这里是商品标题4</h4>
-                <em class="goods_price">￥4999.00</em>
-            </a>
-        </li>
-    </ul>
-</div>
+    <script src="/static/js/public/jquery.js"></script>
+    <script src="/static/js/home/service_store.js"></script>
+
+    <div>
+        <div class="card" style="float: left;" id="left_img">
+            <div>
+            <img src="/static/Images/3.jpg" alt="图片">
+            </div>
+
+            <div class="body">
+                <p>Hardanger, Norway</p>
+                <p>XXX从业40年，丰富的XXX经验XXX从业40年，</p>
+            </div>
+        </div>
+        <div class="card" style="float: right" id="right_img">
+            <img src="/static/Images/3.jpg" alt="图片">
+            <div class="body">
+                <p>Hardanger, Norway</p>
+                <p>XXX从业40年，丰富的XXX经验XXX从业40年，丰富的XXX经验</p>
+            </div>
+        </div>
+    </div>
+
+
 </body>
 </html>

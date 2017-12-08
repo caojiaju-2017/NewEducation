@@ -24,6 +24,7 @@ from django.conf.urls.static import static
 from HsEdu.Api.WebCenterApi import *
 from HsEdu.Api.ThirePart.WxApiHelp import *
 from HsEdu.Api.Custom.CustomApi import *
+from HsEdu.Api.Chat.ChatApi import *
 
 urlpatterns = [
     # API接口
@@ -45,5 +46,10 @@ urlpatterns = [
 
     # 客户api
     url(r'^api/ctm/$',CustomApi.CommandDispatch),
+
+    # 消息页面
+    url(r'^msg_chat.html',ChatApi.CommandDispatch),
+    url(r'^msg_subList.html',ChatApi.CommandDispatch),
+    url(r'^msg_view.html',ChatApi.CommandDispatch),
 
 ] + static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
