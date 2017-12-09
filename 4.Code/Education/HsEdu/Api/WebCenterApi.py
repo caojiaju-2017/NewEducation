@@ -76,6 +76,10 @@ class WebCenterApi(object):
             return render(request, 'warning_notice.html',{"erweima_img":"/static/Images/erweima_img.png"})
 
         renterDict = {}
+        renterDictAarry = []
+        for index in range (20):
+            renterDictAarry.append(index)
+        renterDict['Resource_Datas']= renterDictAarry
         return render(request, './home/resource_store.html',renterDict )
 
     @staticmethod
@@ -88,6 +92,11 @@ class WebCenterApi(object):
             return render(request, 'warning_notice.html',{"erweima_img":"/static/Images/erweima_img.png"})
 
         renterDict = {}
+        renterDictAarry = []
+        for index in range (20):
+            renterDictAarry.append(index)
+
+        renterDict['Service_Datas'] = renterDictAarry
         return render(request, './home/service_store.html',renterDict )
 
     @staticmethod
