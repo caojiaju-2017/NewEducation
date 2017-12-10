@@ -88,6 +88,9 @@ def getGetParamData(request):
     getParamsDataList={}
     for key_value in values.split('&'):
         onePairs = key_value.split('=')
+
+        if len(onePairs) != 2:
+            continue
         getParamsDataList[onePairs[0].lower()] = onePairs[1]
     return  getParamsDataList
 

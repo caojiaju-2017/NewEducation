@@ -25,6 +25,7 @@ from HsEdu.Api.WebCenterApi import *
 from HsEdu.Api.ThirePart.WxApiHelp import *
 from HsEdu.Api.Custom.CustomApi import *
 from HsEdu.Api.Chat.ChatApi import *
+from HsEdu.Api.Admin.AdminApi import *
 
 urlpatterns = [
     # API接口
@@ -51,5 +52,14 @@ urlpatterns = [
     url(r'^msg_chat.html',ChatApi.CommandDispatch),
     url(r'^msg_subList.html',ChatApi.CommandDispatch),
     url(r'^msg_view.html',ChatApi.CommandDispatch),
+    url(r'^res_detail.html',CustomApi.CommandDispatch),
+    url(r'^srv_detail.html',CustomApi.CommandDispatch),
+    url(r'^view_remark.html',CustomApi.CommandDispatch),
+
+
+    # 管理页面
+    url(r'^admin.html',AdminApi.CommandDispatch),
+    url(r'^gettestData/$',AdminApi.getTestData),
+
 
 ] + static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)

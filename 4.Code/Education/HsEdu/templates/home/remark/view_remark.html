@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>demo2</title>
+    <meta name="Generator" content="EditPlus">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta name="viewport" content="user-scalable=no;">
+
+    <link rel="stylesheet" href="/static/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/static/css/home/my_message.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/home.css" media="all">
+</head>
+<body>
+{#<div class="bg">#}
+{#    <img src="/static/Images/background.png" width="100%" height="100%;">#}
+{#</div>#}
+
+<div class="container-fluid" style="border: hidden;">
+    <div class="list-group" style="border: hidden">
+{#    左边对话框    #}
+{#        {% for msgValue in Msg_CodeDatas %}#}
+            <a href="#" class="list-group-item row" style="border: hidden">
+                <div class="col-xs-2 col-sm-2 col-md2 img">
+				    <img src="/static/Images/default.png" />
+				</div>
+                <div class="col-xs-8 col-sm-8 col-md8 img" style="text-align: left;padding-left:25px;padding-top: 10px;
+                padding-bottom: 10px;line-height: 60px;font-size: 2.6em;background-color: #9EEA6A;border-radius: 20px">
+                    新闻通稿发布模式起源于美国，1954年，世界上首家企业新闻专线通过传真机为客户代发新闻稿新闻通稿发布模式起源于美国，1954年，世界上首家企业新闻专线通过传真机为客户代发新闻稿
+				</div>
+            </a>
+
+            <a href="#" class="list-group-item row" style="border: hidden">
+                <div class="col-xs-2 col-sm-2 col-md2 img">
+				    <img src="/static/Images/default.png" />
+				</div>
+                <div class="col-xs-8 col-sm-8 col-md8 img" style="text-align: left;padding-left:25px;padding-top: 10px;
+                padding-bottom: 10px;line-height: 60px;font-size: 2.6em;background-color: #9EEA6A;border-radius: 20px">
+                    新闻通稿发布模式起源于美国
+				</div>
+            </a>
+{#        {% endfor %}#}
+
+    </div>
+</div>
+<div style="width: 100%;height: 140px">
+
+</div>
+<nav class="navbar navbar-default navbar-fixed-bottom" style="height: 120px">
+        <div class="col-lg-12 col-sm-12 col-md12" style="margin-left: 0px">
+            <div class="col-lg-12 col-sm-12 col-md12 input-group" style="margin-left: 0px">
+                <input type="text" class="col-lg-8 col-sm-8 col-8 form-control" style="height: 120px;margin-left: 0px;font-size: 2.6em;color: #4f4d4f">
+                <span class="input-group-btn">
+                    <button class="col-lg-4 col-sm-4 col-md4 btn btn-default" type="button" style="height: 120px;width: 180px;">
+                        <a style='font-size: 2.6em;color: #4f4d4f' href="#">发送</a>
+                    </button>
+                </span>
+            </div><!-- /input-group -->
+        </div><!-- /.col-lg-6 -->
+</nav>
+</body>
+</html>
