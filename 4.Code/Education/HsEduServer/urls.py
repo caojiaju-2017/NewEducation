@@ -56,6 +56,9 @@ urlpatterns = [
     url(r'^srv_detail.html',CustomApi.CommandDispatch),
     url(r'^view_remark.html',CustomApi.CommandDispatch),
 
+    # 用户dns
+    url(r'^res_order.html',CustomApi.CommandDispatch),
+    url(r'^order_detail_info.html', CustomApi.CommandDispatch),
 
     # 管理页面
     url(r'^admin.html',AdminApi.CommandDispatch),

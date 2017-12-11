@@ -24,6 +24,10 @@ class CustomApi(object):
             return CustomApi.Open_Service(request)
         elif command == "view_remark".upper():
             return CustomApi.Open_Remark(request)
+        elif command == "Get_Orders".upper():
+            return CustomApi.Open_OrdersPage(request)
+        elif command == "View_Order".upper():
+            return CustomApi.ViewOrder(request)
 
     @staticmethod
     def Open_Resource(request):
@@ -62,3 +66,36 @@ class CustomApi(object):
 
         renterDict = {}
         return render(request, './home/remark/view_remark.html',renterDict )
+
+    @staticmethod
+    def Open_OrdersPage(request):
+        if (not HsShareData.IsDebug):
+            url = "http://" + request.META['HTTP_HOST'] + request.META['PATH_INFO'] + request.META['QUERY_STRING']
+            img = qrcode.make(url)
+            img.save(os.path.join(os.path.join(STATIC_ROOT,"Images"),"erweima_img.png"))
+            return render(request, 'warning_notice.html',{"erweima_img":"/static/Images/erweima_img.png"})
+
+        renterDict = {}
+        resultList = []
+        for index in range(10):
+            oneRecord = {}
+            oneRecord["code"] = "aaa_000%d"%index
+            oneRecord["time"] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+            oneRecord["title"] = "Title_000%d"%index
+
+            resultList.append(oneRecord)
+
+        renterDict['My_Orders'] = resultList
+        return render(request, './home/usercenter/res_order.html',renterDict )
+
+    @staticmethod
+    def ViewOrder(request):
+        if (not HsShareData.IsDebug):
+            url = "http://" + request.META['HTTP_HOST'] + request.META['PATH_INFO'] + request.META['QUERY_STRING']
+            img = qrcode.make(url)
+            img.save(os.path.join(os.path.join(STATIC_ROOT,"Images"),"erweima_img.png"))
+            return render(request, 'warning_notice.html',{"erweima_img":"/static/Images/erweima_img.png"})
+
+        renterDict = {}
+        return render(request, './home/usercenter/order_detail_info.html',renterDict )
+
