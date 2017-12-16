@@ -553,7 +553,7 @@ class HsSuggests(models.Model):
     usercode = models.CharField(db_column='UserCode', max_length=32, blank=True, null=True)  # Field name made lowercase.
     reltime = models.DateTimeField(db_column='RelTime', blank=True, null=True)  # Field name made lowercase.
     phone = models.CharField(db_column='Phone', max_length=20, blank=True, null=True)  # Field name made lowercase.
-    qqcode = models.CharField(db_column='QQCode', max_length=32, blank=True, null=True)  # Field name made lowercase.
+    username = models.CharField(db_column='UserName', max_length=32, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False

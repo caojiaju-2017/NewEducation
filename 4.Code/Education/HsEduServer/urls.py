@@ -59,6 +59,11 @@ urlpatterns = [
     # 用户dns
     url(r'^res_order.html',CustomApi.CommandDispatch),
     url(r'^order_detail_info.html', CustomApi.CommandDispatch),
+    url(r'^cooperation.html', CustomApi.CommandDispatch),
+    url(r'^suggest.html', CustomApi.CommandDispatch),
+    url(r'^mycheck.html', CustomApi.CommandDispatch),
+
+
 
     # 管理页面
     url(r'^admin.html',AdminApi.CommandDispatch),
