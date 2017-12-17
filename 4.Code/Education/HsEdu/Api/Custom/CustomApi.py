@@ -36,6 +36,10 @@ class CustomApi(object):
             return CustomApi.ReleaseSuggest(request)
         elif command == "View_MyCheck".upper():
             return CustomApi.ViewMyCheck(request)
+        elif command == "View_MyOrganization".upper():
+            return CustomApi.ViewMyOrganization(request)
+        elif command == "View_Tasks".upper():
+            return CustomApi.ViewTasks(request)
 
     @staticmethod
     def Open_Resource(request):
@@ -148,6 +152,55 @@ class CustomApi(object):
 
         renterDict = {}
         return render(request, './home/usercenter/mycheck.html',renterDict )
+
+    @staticmethod
+    def ViewMyOrganization(request):
+        if (not HsShareData.IsDebug):
+            url = "http://" + request.META['HTTP_HOST'] + request.META['PATH_INFO'] + request.META['QUERY_STRING']
+            img = qrcode.make(url)
+            img.save(os.path.join(os.path.join(STATIC_ROOT,"Images"),"erweima_img.png"))
+            return render(request, 'warning_notice.html',{"erweima_img":"/static/Images/erweima_img.png"})
+
+        # 生成我的二维码
+        url = "http://" + request.META['HTTP_HOST'] + request.META['PATH_INFO'] + request.META['QUERY_STRING']
+        img = qrcode.make(url)
+
+        img.save(os.path.join(os.path.join(STATIC_ROOT, "Images"), "my_ewm.png"))
+
+        renterDict = {}
+        orgDatas = []
+        for index in range(20):
+            oneOrg = {}
+            oneOrg["image"] = "test/test_0%d.png" % ((index + 1) % 9)
+            oneOrg["name"] = "汉森教育咨询%02d"%index
+            oneOrg["code"] = "Abc_%d"%index
+            orgDatas.append(oneOrg)
+
+        renterDict['Org_Datas'] = orgDatas
+        renterDict['My_EWM'] = "my_ewm.png"
+
+        return render(request, './home/usercenter/organization_my.html',renterDict )
+
+
+    @staticmethod
+    def ViewTasks(request):
+        if (not HsShareData.IsDebug):
+            url = "http://" + request.META['HTTP_HOST'] + request.META['PATH_INFO'] + request.META['QUERY_STRING']
+            img = qrcode.make(url)
+            img.save(os.path.join(os.path.join(STATIC_ROOT,"Images"),"erweima_img.png"))
+            return render(request, 'warning_notice.html',{"erweima_img":"/static/Images/erweima_img.png"})
+        renterDict = {}
+        orgDatas = []
+        for index in range(20):
+            oneOrg = {}
+            oneOrg["image"] = "test/test_0%d.png" % ((index + 1) % 9)
+            oneOrg["name"] = "汉森教育咨询%02d"%index
+            oneOrg["code"] = "Abc_%d"%index
+            orgDatas.append(oneOrg)
+
+        renterDict['Org_Datas'] = orgDatas
+        renterDict['My_EWM'] = "my_ewm.png"
+        return render(request, './home/usercenter/task_view.html',renterDict )
 
 
 

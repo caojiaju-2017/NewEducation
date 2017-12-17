@@ -62,6 +62,8 @@ urlpatterns = [
     url(r'^cooperation.html', CustomApi.CommandDispatch),
     url(r'^suggest.html', CustomApi.CommandDispatch),
     url(r'^mycheck.html', CustomApi.CommandDispatch),
+    url(r'^organization_my.html', CustomApi.CommandDispatch),
+    url(r'^task_view.html', CustomApi.CommandDispatch),
 
 
 
