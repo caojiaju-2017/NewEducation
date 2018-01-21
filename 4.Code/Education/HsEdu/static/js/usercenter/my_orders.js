@@ -32,18 +32,18 @@ $(document).ready(function()
     $.get_current_query();
 
     $(window).scroll(function(){
-        var srollPos = $(window).scrollTop();
-        var documentHd = $(document).height();
-        var winHd = $(window).height() ;
-
-
-        totalheight = parseFloat($(window).height()) + parseFloat(srollPos);
-        if (srollPos + winHd > documentHd*0.9 && !isFinishLoad)
-        {
-             // 加载数据
-            currentPageIndex = currentPageIndex + 1;
-            $.get_current_query();
-        }
+        // var srollPos = $(window).scrollTop();
+        // var documentHd = $(document).height();
+        // var winHd = $(window).height() ;
+        //
+        //
+        // totalheight = parseFloat($(window).height()) + parseFloat(srollPos);
+        // if (srollPos + winHd > documentHd*0.9 && !isFinishLoad)
+        // {
+        //      // 加载数据
+        //     currentPageIndex = currentPageIndex + 1;
+        //     $.get_current_query();
+        // }
 
     });
 });

@@ -114,3 +114,93 @@ def commitCustomDataByTranslate(objHandles):
                 return  False
 
     return True
+
+def getName(type, ltype):
+    '''
+    :param type: 名字类别 0 表示年级 1 表示年级 2 表示科目
+    :param ltype:type=0:1表示高中 2 表示初中 3 表示小学；type=1：1初年级，2中年级，3高年级 ；type=2:1语文 2数学 3英语 4其他
+    :return:
+    '''
+    ltype = int(ltype)
+    if type == 0:
+        if ltype == 1:
+            return "高中"
+        elif ltype == 2:
+            return "初中"
+        elif ltype == 3:
+            return "小学"
+    elif type == 1:
+        if ltype == 1:
+            return "初年级"
+        elif ltype == 2:
+            return "中年级"
+        elif ltype == 3:
+            return "高年级"
+    elif type == 2:
+        if ltype == 1:
+            return "语文"
+        elif ltype == 2:
+            return "数学"
+        elif ltype == 3:
+            return "英语"
+        elif ltype == 4:
+            return "其他"
+    else:
+        return "其他"
+    pass
+
+def getNameId(type, name):
+    '''
+    :param type: 名字类别 0 表示年级 1 表示年级 2 表示科目
+    :param ltype:type=0:1表示高中 2 表示初中 3 表示小学；type=1：1初年级，2中年级，3高年级 ；type=2:1语文 2数学 3英语 4其他
+    :return:
+    '''
+    name = name.encode('utf-8')
+    if type == 0:
+        if name == "高中":
+            return 1
+        elif name == "初中":
+            return 2
+        elif name == "小学":
+            return 3
+    elif type == 1:
+        if name == "初年级":
+            return 1
+        elif name == "中年级":
+            return 2
+        elif name == "高年级":
+            return 3
+    elif type == 2:
+        if name == "语文":
+            return 1
+        elif name == "数学":
+            return 2
+        elif name == "英语":
+            return 3
+        elif name == "其他":
+            return 4
+    else:
+        return -1
+
+    return -1
+
+def queryResource(gradeid,gclassid,subjectid,filterS):
+    resDatas =  HsResources.objects.all().order_by('-code')
+    rtnDatas = []
+    for oneData in resDatas:
+        if gradeid != -1 and int(oneData.resgrade) != gradeid:
+            continue
+        elif gclassid != -1 and int(oneData.reslevel) != gclassid:
+            continue
+        elif subjectid != -1 and int(oneData.resclass) != subjectid:
+            continue
+
+        if filterS and len(filterS) > 0:
+            if  (filterS in oneData.restitle) or (filterS in oneData.resinfo) :
+                rtnDatas.append(oneData)
+            else:
+                continue
+        else:
+            rtnDatas.append(oneData)
+
+    return rtnDatas

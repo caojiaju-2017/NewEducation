@@ -2,39 +2,384 @@
 <html>
 <head>
     <title> HS在线 </title>
-    <meta name="Generator" content="EditPlus">
-    <meta name="Author" content="">
-    <meta name="Keywords" content="">
-    <meta name="Description" content="">
+    {#    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=0.35, user-scalable=no">#}
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="user-scalable=no">
+    <link rel="stylesheet" href="/static/css/bootstrap.css"/>
     <link rel="stylesheet" type="text/css" href="/static/css/home.css" media="all">
+    <link rel="stylesheet" href="/static/css/home/my_message.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/home/user_center.css"/>
 </head>
 
 <body>
 <script src="/static/js/public/jquery.min.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script src="/static/js/public/JSUtils.js"></script>
-<script src="/static/js/public/cookie.js"></script>
+<script src="/static/js/public/cookie.js"></script> 
+<script src="/static/js/bootstrap/bootstrap.js"></script>
+<script src="/static/js/home/resource_store.js"></script>
 <script src="/static/js/home/home.js"></script>
+<script type="text/javascript">
+    $(function () {
+        /***用户点击分享到微信圈后加载接口接口****------***/
+        var url = window.location.href.split('#')[0];
+        url = url.replace(/&/g, '%26');
+        console.log("url:" + url);
+        $.ajax({
+            url: "http://www.h-sen.com/shareToFriend/?url=" + url,
+            type: "POST",
+            async: true,
+            cache: false,
+            dataType: "json",
+            success: function (data) {
+                {#                alert("success1 appId = " + data.appId);#}
+                {#                alert("success1 timeStamp = " + data.timeStamp);#}
+                {#                alert("success1 nonceStr = " + data.nonceStr);#}
+                {#                alert("success1 signature = " + data.signature);#}
+
+                wx.config({
+                    debug: false,
+                    appId: data.appId,
+                    timestamp: data.timeStamp,
+                    nonceStr: data.nonceStr,
+                    signature: data.signature,
+                    jsApiList: [
+                        'checkJsApi',
+                        'onMenuShareTimeline',
+                        'onMenuShareAppMessage'
+                    ]
+                });
+                wx.ready(function () {
+                    //wx.hideOptionMenu();/***隐藏分享菜单****/
+                    wx.checkJsApi({
+                        jsApiList: [
+                            'onMenuShareTimeline',
+                            'onMenuShareAppMessage'
+                        ],
+                        success: function (res) {
+                            //alert(res.errMsg);
+                        }
+                    });
+
+                    wx.onMenuShareAppMessage({
+                        title: data.title,
+                        desc: data.context,
+                        link: data.url,
+                        imgUrl: 'http://www.h-sen.com/static/Images/default.jpg',
+                        trigger: function (res) {
+                            //alert('用户点击发送给朋友');
+                        },
+                        success: function (res) {
+                            alert('感谢您的分享～～');
+                            //分享之后增加游戏次数
+                        },
+                        cancel: function (res) {
+                            //alert('已取消');
+                        },
+                        fail: function (res) {
+                            alert(res.errMsg);
+                        }
+                    });
+
+                    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+                    wx.onMenuShareTimeline({
+                        title: data.title,
+                        //desc: data.context,
+                        link: data.url,
+                        imgUrl: 'http://www.h-sen.com/static/Images/default.jpg',
+                        trigger: function (res) {
+                            //alert('用户点击分享到朋友圈');
+                        },
+                        success: function (res) {
+                            alert('感谢您的分享～～');
+                        },
+                        cancel: function (res) {
+                            //alert('已取消');
+                        },
+                        fail: function (res) {
+                            alert(res.errMsg);
+                        }
+                    });
+                    wx.onMenuShareQQ({
+                        title: data.title, // 分享标题
+                        desc: data.context, // 分享描述
+                        link: data.url, // 分享链接
+                        imgUrl: data.image, // 分享图标
+                        success: function () {
+                            alert('感谢您的分享～～');
+                        },
+                        cancel: function () {
+                            // 用户取消分享后执行的回调函数
+                        },
+                        fail: function (res) {
+                            alert(res.errMsg);
+                        }
+                    });
+                    wx.error(function (res) {
+                        {#                               alert(res.errMsg);#}
+                    });
+                });
+            },
+            error: function () {
+                {#                        alert('ajax request failed!!!!');#}
+                return;
+            }
+        });
+    });
+
+</script>
 
 <div class="bg">
     <img src="/static/Images/background.png" width="100%" height="100%;">
 </div>
 
-<iframe src="my_message.html" style="width: 100%;height: 300px" name="main_frame" id="main_frame_id"></iframe>
+{#<iframe src="news_page.html" style="width: 100%;height: 300px" name="main_frame" id="main_frame_id"></iframe>#}
+
+<div id="res_div" hidden>
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation"
+         style="height: 200px;background-image: url('/static/Images/background.png')">
+        <div class="container-fluid" style="margin-top: 20px">
+            <div class="col-xs-12 col-sm-12 col-md12">
+                {#            <ul class="nav navbar-nav">#}
+                <li class="col-xs-4 col-sm-4 col-md4 dropdown" style="font-size: 80px">
+                    <div class="dropdown" style="width: 100%;text-align: center">
+                        <button type="button" class="btn btn-primary dropdown-toggle" id="dropdownMenu1"
+                                data-toggle="dropdown" style="font-size: 40px;width:80%">学历
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1"
+                            style="font-size: xx-large">
+                            <li role="presentation">
+                                <a role="menuitem" tabindex="-1" href="#"
+                                   onclick="$.changeSelect('dropdownMenu1','高中')">高中</a>
+                            </li>
+                            <li role="presentation">
+                                <a role="menuitem" tabindex="-1" href="#"
+                                   onclick="$.changeSelect('dropdownMenu1','初中')">初中</a>
+                            </li>
+                            <li role="presentation">
+                                <a role="menuitem" tabindex="-1" href="#"
+                                   onclick="$.changeSelect('dropdownMenu1','小学')">小学</a>
+                            </li>
+                            <li role="presentation">
+                                <a role="menuitem" tabindex="-1" href="#"
+                                   onclick="$.changeSelect('dropdownMenu1','幼教')">幼教</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="col-xs-4 col-sm-4 col-md4 dropdown" style="font-size: 80px">
+                    <div class="dropdown" style="width: 100%;text-align: center">
+                        <button type="button" class="btn btn-danger dropdown-toggle" id="dropdownMenu2"
+                                data-toggle="dropdown" style="font-size: 40px;width:80%">学年
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2"
+                            style="font-size: xx-large">
+                            <li role="presentation">
+                                <a role="menuitem" tabindex="-1" href="#"
+                                   onclick="$.changeSelect('dropdownMenu2','初年级')">初年级</a>
+                            </li>
+                            <li role="presentation">
+                                <a role="menuitem" tabindex="-1" href="#"
+                                   onclick="$.changeSelect('dropdownMenu2','中年级')">中年级</a>
+                            </li>
+                            <li role="presentation">
+                                <a role="menuitem" tabindex="-1" href="#"
+                                   onclick="$.changeSelect('dropdownMenu2','高年级')">高年级</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="col-xs-4 col-sm-4 col-md4 dropdown" style="font-size: 80px">
+                    <div class="dropdown" style="width: 100%;text-align: center">
+                        <button type="button" class="btn btn-lg dropdown-toggle" id="dropdownMenu3"
+                                data-toggle="dropdown" style="font-size: 40px;width:80%">科目
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu3"
+                            style="font-size: xx-large">
+                            <li role="presentation">
+                                <a role="menuitem" tabindex="-1" href="#"
+                                   onclick="$.changeSelect('dropdownMenu3','语文')">语文</a>
+                            </li>
+                            <li role="presentation">
+                                <a role="menuitem" tabindex="-1" href="#"
+                                   onclick="$.changeSelect('dropdownMenu3','数学')">数学</a>
+                            </li>
+                            <li role="presentation">
+                                <a role="menuitem" tabindex="-1" href="#"
+                                   onclick="$.changeSelect('dropdownMenu3','英语')">英语</a>
+                            </li>
+                            <li role="presentation">
+                                <a role="menuitem" tabindex="-1" href="#"
+                                   onclick="$.changeSelect('dropdownMenu3','其他')">其他</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                {#            </ul>#}
+            </div>
+        </div>
+        <div class="container" style="margin-top: 20px">
+            <div class="input-group" style="height: 80px">
+                <input type="text" class="form-control input-lg" style="height: 80px" id="fliter_input">
+                <span class="input-group-addon btn btn-primary"><a style="width: 180px;font-size: 40px"
+                                                                   onclick="$.beginSearch()">搜索</a></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid" style="margin-top: 220px">
+        <div class="list-group" id="res_item_div">
+            {% for oneRes in Resource_Datas %}
+                <a onclick="$.openResourceDetail('{{ oneRes.Code }}')" class="list-group-item row"
+                   style="height: 260px;padding-left: 0px;padding-right: 0px">
+                    <div class="col-xs-3 col-sm-3 col-md3 img text-center"
+                         style="height: 100%">
+                        <img src="/static/Images/newsPic/news10008.jpg" class="img-thumbnail"
+                             style="margin-left: 0px;position: relative;top: 50%;transform: translateY(-50%);width: 94%;height: 80%;border-radius: 20px"/>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md6" style=";padding-left: 0px;padding-right: 0px">
+                        <div class="col-xs-12 col-sm-12 col-md12" style="margin-top: 20px">
+                            <span class="label label-primary" style="font-size: 25px">{{oneRes.ResGrade}}</span>
+                            <span class="label label-success" style="font-size: 25px">{{oneRes.ResLevel}}</span>
+                            <span class="label label-info" style="font-size: 25px">{{oneRes.ResClass}}</span>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-12 col-md12"
+                             style="font-size: 30px;padding-left: 20px;color: #000;margin-top: 20px;color: #606060">
+                            {{oneRes.ResInfo}}
+                        </div>
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md3 time"
+                         style="font-size: 30px;padding-left: 0px;padding-right: 0px">
+                        <div class="col-xs-12 col-sm-12 col-md12" style="color: #000">
+                            {{oneRes.Name}}
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md12" style="color: #ec971f ">
+                            价格：{{oneRes.Price}}元
+                        </div>
+
+                        <div class="col-xs-12 col-sm-12 col-md12" style="color: #8c8c8c">
+                            浏览量：<span class="badge" style="font-size: 20px">{{oneRes.ViewCount}}</span>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-12 col-md12" style="color: #8c8c8c">
+                            交易量：<span class="badge" style="font-size: 20px">{{oneRes.BuyCount}}</span>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-12 col-md12 img buy-center"
+                            style="">
+                            <img src="/static/Images/Icon/buy.jpg" class="img-circle" style="width: 60px;height: 40px"/>
+                        </div>
+                    </div>
+                </a>
+
+
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div id="home_div">
+    <div style="height: 100px;text-align: center;font-size: 4em;line-height: 100px">
+        新闻中心
+    </div>
+<div style="width: 100%;height: 20px;background-color: #8c8c8c"></div>
+    <div class="container-fluid" style="border: hidden;margin-top: 30px;height: 160px">
+        <div class="list-group" style="border: hidden;" id="newsList">
+            {% for oneRecord in NewsDatas %}
+                <a class="list-group-item row" style="border-bottom:1px solid #000;height:240px"
+                   onclick="$.openNews('{{ oneRecord.Code }}')">
+                    <div class="col-xs-3 col-sm-3 col-md3" style="margin-top: 10px">
+                        <img class="col-xs-12 col-sm-12 col-md12" src="/static/Images/newsPic/{{ oneRecord.Image }}"
+                             style="width: 200px;height: 180px;margin-top: 10px;border-radius: 10px;padding-left: 0px;padding-right: 0px"/>
+                    </div>
+
+                    <div class="col-xs-9 col-sm-9 col-md9"
+                         style="font-size: 40px;word-break: break-all;word-wrap: break-word;margin-top:5px">
+                        <div class="col-xs-12 col-sm-12 col-md12" style="font-weight: bold;
+                        	white-space:nowrap; text-overflow:ellipsis;  -o-text-overflow:ellipsis;  overflow: hidden;">
+                            {{ oneRecord.Title }}
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md12"
+                             style="font-size: 30px;word-break: break-all;word-wrap: break-word;">
+                            {{ oneRecord.Info }}
+                        </div>
+
+                        <div class="col-xs-12 col-sm-12 col-md12"
+                             style="font-size: 30px;word-break: break-all;word-wrap: break-word;text-align: end;color: #0c8a90;">
+                            {{ oneRecord.Date }}
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+
+        </div>
+    </div>
+
+</div>
+
+<div id="usercenter_div" hidden>
+
+    <!--头像部分-->
+    <div class="user_div">
+        <img src="/static/Images/default.png" class="user_head" id="user_head" style="border-radius: 2pc">
+
+        <div class="user_detail">
+            <div style="font-size: 3em;color: #111111;height: 100%;margin-top: 3pc" id="uName">未知用户</div>
+        </div>
+    </div>
+    <div style="margin-left: 20px;margin-top: 40px;font-size: 3em;color: #4f4d4f">订单中心</div>
+    <!--粗分割div-->
+    <div class="seperatorDiv"></div>
+    <div>
+        <div class="item_function"
+             onclick="$.getMyOrder()">
+            <img class="itemLogo" src="/static/Images/order.jpg">
+            <div class="itemTitle">购买记录</div>
+            <img class="right_arrow" src="/static/Images/right.png">
+        </div>
+    </div>
+    <div style="margin-left: 20px;margin-top:40px;font-size: 3em;color: #4f4d4f">意见反馈</div>
+    <div class="seperatorDiv"></div>
+    <div>
+        <div class="item_function"
+             onclick="javascrtpt:window.parent.location.href='./suggest.html?Command=Send_Suggest'">
+            <img class="itemLogo" src="/static/Images/suggest.jpg">
+            <div class="itemTitle">意见反馈</div>
+            <img class="right_arrow" src="/static/Images/right.png">
+        </div>
+    </div>
+
+    <div style="margin-left: 20px;margin-top: 40px;font-size: 3em;color: #4f4d4f">商务合作</div>
+    <div class="seperatorDiv"></div>
+    <div>
+        <div class="item_function"
+             onclick="javascrtpt:window.parent.location.href='./cooperation.html?Command=Open_Contact'">
+            <img class="itemLogo" src="/static/Images/hezuo.jpg">
+            <div class="itemTitle">商务合作</div>
+            <img class="right_arrow" src="/static/Images/right.png">
+        </div>
+    </div>
+</div>
+
 <div data-role="widget" data-widget="nav4" class="nav4">
     <nav>
         <div id="nav4_ul" class="nav_4">
             <ul class="box">
-                <li id="abc">
-                    <a href="./my_message.html" target="main_frame" class=""><span>我的信息</span></a>
-                </li>
+                {#                <li id="abc">#}
+                {#                    <a href="./my_message.html" target="main_frame" class=""><span>我的信息</span></a>#}
+                {#                </li>#}
                 <li id="abc1">
-                    <a href="./resource_store.html" target="main_frame" class=""><span>资源中心</span></a>
+                    <a onclick="$.showResource()"><span>资源大厅</span></a>
                 </li>
                 <li id="abc2">
-                    <a href="./service_store.html" target="main_frame" class=""><span>服务大厅</span></a>
+                    <a onclick="$.showHome()"><span>首页</span></a>
                 </li>
                 <li id="abc3">
-                    <a href="./user_center.html" target="main_frame" class=""><span>个人中心</span></a>
+                    <a onclick="$.showUser()"><span>个人中心</span></a>
                 </li>
             </ul>
         </div>
@@ -46,5 +391,27 @@
     {#    </script>#}
 </div>
 
+    <script type="text/javascript">
+    	try
+   {
+{#       alert('abc');#}
+        var Dict = {{ wxInfo|safe }};
+{#        $.cookie("OpenId", Dict.OpenId);#}
+{#        $.cookie("WxName", Dict.WxName);#}
+{#        $.cookie("HeadImg", Dict.HeadImg);#}
+        if(typeof(Dict)=="undefined")
+        {
+            alert("微信头像加载失败");
+        }
+        else
+        {
+        $.setUserInfo(Dict.OpenId,Dict.WxName,Dict.HeadImg);
+        }
+}
+catch(err)
+   {
+   	alert("微信头像加载失败2");
+  }
+   </script>
 </body>
 </html>

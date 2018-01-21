@@ -24,45 +24,47 @@ from django.conf.urls.static import static
 from HsEdu.Api.WebCenterApi import *
 from HsEdu.Api.ThirePart.WxApiHelp import *
 from HsEdu.Api.Custom.CustomApi import *
-from HsEdu.Api.Chat.ChatApi import *
+# from HsEdu.Api.Chat.ChatApi import *
 from HsEdu.Api.Admin.AdminApi import *
 
 urlpatterns = [
     # API接口
     url(r'^admin/', admin.site.urls),
-    url(r'^$',WebCenterApi.goHome),
+    url(r'^$',WebCenterApi.wxA),
 
     # 启动时微信登录---等待页面
     url(r'^wait.html',WebCenterApi.openWaitPage),
-
-    # 首页大菜单
-    url(r'^my_message.html',WebCenterApi.openPage1),
-    url(r'^resource_store.html',WebCenterApi.openPage2),
-    url(r'^service_store.html',WebCenterApi.openPage3),
-    url(r'^user_center.html',WebCenterApi.openPage4),
+    url(r'^index.html',WebCenterApi.goHome),
 
     # 微信授权
-    url(r'^MP_verify_iJqJ8ZXNRFKMeimo.txt', WxApiHelp.getWxAuthData),
-    url(r'^wxauth.html', WxApiHelp.wxA),
+    url(r'^MP_verify_MSBMLCCIiHOH519f.txt', WebCenterApi.getWxAuthData),
+    url(r'^shareToFriend',WebCenterApi.shareToFriend),
+    url(r'^payCall.html',WebCenterApi.payCall),
+    url(r'^paySuccess.html',WebCenterApi.paySuccess),
+
 
     # 客户api
     url(r'^api/ctm/$',CustomApi.CommandDispatch),
 
+
+
     # 消息页面
-    url(r'^msg_chat.html',ChatApi.CommandDispatch),
-    url(r'^msg_subList.html',ChatApi.CommandDispatch),
-    url(r'^msg_view.html',ChatApi.CommandDispatch),
+    # url(r'^msg_chat.html',ChatApi.CommandDispatch),
+    # url(r'^msg_subList.html',ChatApi.CommandDispatch),
+    # url(r'^msg_view.html',ChatApi.CommandDispatch),
     url(r'^res_detail.html',CustomApi.CommandDispatch),
-    url(r'^srv_detail.html',CustomApi.CommandDispatch),
-    url(r'^view_remark.html',CustomApi.CommandDispatch),
+    # url(r'^srv_detail.html',CustomApi.CommandDispatch),
+    # url(r'^view_remark.html',CustomApi.CommandDispatch),
 
     # 用户dns
     url(r'^res_order.html',CustomApi.CommandDispatch),
     url(r'^order_detail_info.html', CustomApi.CommandDispatch),
     url(r'^cooperation.html', CustomApi.CommandDispatch),
     url(r'^suggest.html', CustomApi.CommandDispatch),
-    url(r'^mycheck.html', CustomApi.CommandDispatch),
-
+    # url(r'^mycheck.html', CustomApi.CommandDispatch),
+    # url(r'^organization_my.html', CustomApi.CommandDispatch),
+    # url(r'^task_view.html', CustomApi.CommandDispatch),
+    url(r'^view_news.html', CustomApi.CommandDispatch),
 
 
     # 管理页面

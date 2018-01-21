@@ -19,12 +19,11 @@ import time
 import json
 import uuid
 import re
+import et
 import qrcode
 import urllib2
 import requests
-import urlparse
-
-
+from django.template import Template, Context
 from HsPlatform.Sms.HsSmsHelp import *
 from HsPlatform.Sms.MobileRecord import *
 
@@ -38,3 +37,21 @@ from django.template import Template, Context
 from HsEdu.models import *
 from HsEdu.Api.PublicService import *
 from HsShareData import *
+
+import logging
+import json,uuid,time,base64,re,urllib
+from django.shortcuts import render,render_to_response
+from django.http import  HttpResponse,HttpResponseRedirect
+
+from django.db import transaction
+from django.views.decorators.csrf import csrf_exempt
+import qrcode,urllib2,requests
+from HsShareData import *
+from django.db.models import F
+from HsEdu.models import *
+import xml.etree.ElementTree as ET
+
+from HsEdu.Api.BaseEmail import *
+
+logger = logging.getLogger('django')
+
