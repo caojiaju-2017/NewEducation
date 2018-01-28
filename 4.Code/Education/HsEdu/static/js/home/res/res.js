@@ -22,4 +22,8 @@ $.extend({
         $("#example_video_1").attr("autoplay","true");//直接播放
     },
 
+    ViewRemark: function (codeName) {
+    	  var openId = $.cookie("OpenId");
+    		location.href = './view_remark.html?Command=View_Remark&code=' + codeName + "&openid=" + openId;
+    },
 });

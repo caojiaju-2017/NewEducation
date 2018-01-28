@@ -11,6 +11,8 @@
     <script src="/static/js/public/jquery.min.js"></script>
     <script src="/static/js/bootstrap/bootstrap.js"></script>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+    <script src="/static/js/public/JSUtils.js"></script>
+		<script src="/static/js/public/cookie.js"></script>     
     <script src="/static/js/home/res/res.js"></script>
 
     <link rel="stylesheet" href="/static/css/bootstrap.css"/>
@@ -137,6 +139,19 @@
     });
 
 
+$(document).ready(function(e) { 
+            var counter = 0;
+            if (window.history && window.history.pushState) {
+                             $(window).on('popstate', function () {
+                                            window.history.pushState('forward', null, '#');
+                                            window.history.forward(1);
+                                          location.href='./wait.html?hidden=1'
+                                });
+              }
+
+              window.history.pushState('forward', null, '#'); //在IE中必须得有这两行
+              window.history.forward(1);
+});
 </script>
 
     <div class="container-fluid" style="margin-top: 20px">
@@ -246,7 +261,7 @@
         <div id="nav4_ul" class="nav_4">
             <ul class="box">
                 <li id="abc1">
-                    <a href="tel:+15680585185"><span>联系</span></a>
+                    <a onclick="$.ViewRemark('{{ Res_Code }}')"><span>留言({{ Remark_Txt }}条)</span></a>
                 </li>
                 <li id="abc2">
                     <a onclick="$.buyResource('{{ Res_Code }}',{{ Res_Priv }})"><span>{{ Priv_Title }}</span></a>

@@ -1,0 +1,5 @@
+body{
+		background:url('/static/Images/game/game_back.jpg') top left;
+		background-size:100% 100%;
+		overflow:hidden;
+	}

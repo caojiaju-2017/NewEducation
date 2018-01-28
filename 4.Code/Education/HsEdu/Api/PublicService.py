@@ -204,3 +204,10 @@ def queryResource(gradeid,gclassid,subjectid,filterS):
             rtnDatas.append(oneData)
 
     return rtnDatas
+
+def getRadomName(size):
+    seed = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-"
+    sa = []
+    for i in range(size):
+        sa.append(random.choice(seed))
+    salt = ''.join(sa)

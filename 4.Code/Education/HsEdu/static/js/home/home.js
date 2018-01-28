@@ -72,10 +72,10 @@ var oneResourceTmpl = "<a onclick=\"$.openResourceDetail('{Code}')\" class=\"lis
     "                        <div class=\"col-xs-12 col-sm-12 col-md12\" style=\"color: #8c8c8c\">\n" +
     "                            交易量：<span class=\"badge\" style=\"font-size: 20px\">{BuyCount}</span>\n" +
     "                        </div>\n" +
-        "                    <div class=\"col-xs-12 col-sm-12 col-md12 img buy-center\"\n" +
-        "                         style=\"\">\n" +
-        "                        <img src=\"/static/Images/Icon/buy.jpg\" class=\"img-circle\" style=\"width: 60px;height: 40px\"/>\n" +
-        "                    </div>\n" +
+    "                    <div class=\"col-xs-12 col-sm-12 col-md12 img buy-center\"\n" +
+    "                         style=\"\">\n" +
+    "                        <img src=\"/static/Images/Icon/buy.jpg\" class=\"img-circle\" style=\"width: 60px;height: 40px\"/>\n" +
+    "                    </div>\n" +
 
     "                    </div>\n" +
     "\n" +
@@ -83,23 +83,11 @@ var oneResourceTmpl = "<a onclick=\"$.openResourceDetail('{Code}')\" class=\"lis
 
 var bottomSep = '<div style="height: 110px;width: 100%"></div>';
 window.onload = function () {
-//     openId = getUrlParam('OpenId');
-//     openName = getUrlParam('WxName');
-//     openHeadImage = getUrlParam('HeadImg');
-//
-//     $.cookie("OpenId", openId);
-//     $.cookie("WxName", openName);
-//     $.cookie("HeadImg", openHeadImage);
-//
-// //    设置头像数据
-//     $("#uName").text(openName);
-//     $("#user_head").attr('src',openHeadImage);
+
 };
 
 $(document).ready(function () {
-    // var iframeHeight = $(document).height();
-    // $("#main_frame_id").height(iframeHeight - 105);
-    //
+
     $(window).scroll(function () {
         var srollPos = $(window).scrollTop();
         var documentHd = $(document).height();
@@ -119,7 +107,7 @@ $(document).ready(function () {
                 }
             }
             else {
-                if (!isResLoadFinishLoad&& !queryResLoadLock) {
+                if (!isResLoadFinishLoad && !queryResLoadLock) {
                     queryResLoadLock = true;
                     // 加载数据
                     currentResLoadPageIndex = currentResLoadPageIndex + 1;
@@ -130,22 +118,22 @@ $(document).ready(function () {
     });
 
     var bIndex = $.cookie("BrowserIndex");
-    if (bIndex == 1)
-    {
+    if (bIndex == 1) {
         $.showResource();
     }
-    else if (bIndex == 0)
-    {
-        $.showHome()
+    else if (bIndex == 0) {
+        $.showHome();
     }
-    else if (bIndex == -1)
-    {
+    else if (bIndex == -1) {
         $.showUser();
+    }
+    else {
+        $.showHome();
     }
 });
 
 $.extend({
-    setUserInfo: function (openid,username,headimg) {
+    setUserInfo: function (openid, username, headimg) {
         // alert('afsd');
         // alert(openid);
         // alert(username);
@@ -156,7 +144,7 @@ $.extend({
 
         //    设置头像数据
         $("#uName").text(username);
-        $("#user_head").attr('src',headimg);
+        $("#user_head").attr('src', headimg);
     },
     showResource: function () {
 
@@ -165,20 +153,20 @@ $.extend({
         $("#usercenter_div").hide();
         currentType = 1;
 
-        $.cookie("BrowserIndex",1);
+        $.cookie("BrowserIndex", 1);
     },
     getMyOrder: function () {
-			//javascrtpt:window.parent.location.href='./res_order.html?Command=Get_Orders&Type=1'
-			var openId = $.cookie("OpenId");
-			location.href='./res_order.html?Command=Get_Orders&Type=1&openId=' + openId;
-    },    
+        //javascrtpt:window.parent.location.href='./res_order.html?Command=Get_Orders&Type=1'
+        var openId = $.cookie("OpenId");
+        location.href = './res_order.html?Command=Get_Orders&Type=1&openId=' + openId;
+    },
     showHome: function () {
         $("#res_div").hide();
         $("#home_div").show();
         $("#usercenter_div").hide();
         currentType = 0;
 
-        $.cookie("BrowserIndex",0);
+        $.cookie("BrowserIndex", 0);
     },
     showUser: function () {
         $("#res_div").hide();
@@ -186,7 +174,7 @@ $.extend({
         $("#usercenter_div").show();
         currentType = -1;
 
-        $.cookie("BrowserIndex",-1);
+        $.cookie("BrowserIndex", -1);
     },
     openNews: function (codeName) {
         window.location = "/view_news.html?Command=View_News&Code=" + codeName;
@@ -222,7 +210,6 @@ $.extend({
         }
         return result;
     },
-
     get_query_cmd: function () {
         var rtnCmd = "/api/ctm/?Command=Query_News&pageindex={0}&pagesize={1}";
         rtnCmd = $.StringFormat(rtnCmd, currentPageIndex, currentPageSize);
@@ -268,8 +255,6 @@ $.extend({
     changeSelect: function (btnId, selVal) {
         $("#" + btnId).html(selVal + "<span class=\"caret\"></span>");
     },
-
-
     get_resquery_cmd: function (xueli, xuenian, subjiect, filter) {
         var rtnCmd = "/api/ctm/?Command=Query_Res&pageindex={0}&pagesize={1}&filter={2}&grade={3}&class={4}&subject={5}";
         rtnCmd = $.StringFormat(rtnCmd, currentResLoadPageIndex, currentResLoadPageSize, filter, xueli, xuenian, subjiect);
@@ -362,5 +347,9 @@ $.extend({
         $("#res_item_div").html("");
         $.searchResource();
 
+    },
+    openENGame: function () {
+        var openId = $.cookie("OpenId");
+        location.href = './game_en.html?Command=Open_ENGame' + "&openid=" + openId;
     },
 });

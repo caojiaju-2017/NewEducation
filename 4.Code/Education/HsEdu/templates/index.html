@@ -15,7 +15,7 @@
 <script src="/static/js/public/jquery.min.js"></script>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script src="/static/js/public/JSUtils.js"></script>
-<script src="/static/js/public/cookie.js"></script> 
+<script src="/static/js/public/cookie.js"></script>
 <script src="/static/js/bootstrap/bootstrap.js"></script>
 <script src="/static/js/home/resource_store.js"></script>
 <script src="/static/js/home/home.js"></script>
@@ -242,35 +242,35 @@
                     </div>
                     <div class="col-xs-6 col-sm-6 col-md6" style=";padding-left: 0px;padding-right: 0px">
                         <div class="col-xs-12 col-sm-12 col-md12" style="margin-top: 20px">
-                            <span class="label label-primary" style="font-size: 25px">{{oneRes.ResGrade}}</span>
-                            <span class="label label-success" style="font-size: 25px">{{oneRes.ResLevel}}</span>
-                            <span class="label label-info" style="font-size: 25px">{{oneRes.ResClass}}</span>
+                            <span class="label label-primary" style="font-size: 25px">{{ oneRes.ResGrade }}</span>
+                            <span class="label label-success" style="font-size: 25px">{{ oneRes.ResLevel }}</span>
+                            <span class="label label-info" style="font-size: 25px">{{ oneRes.ResClass }}</span>
                         </div>
 
                         <div class="col-xs-12 col-sm-12 col-md12"
                              style="font-size: 30px;padding-left: 20px;color: #000;margin-top: 20px;color: #606060">
-                            {{oneRes.ResInfo}}
+                            {{ oneRes.ResInfo }}
                         </div>
                     </div>
                     <div class="col-xs-3 col-sm-3 col-md3 time"
                          style="font-size: 30px;padding-left: 0px;padding-right: 0px">
                         <div class="col-xs-12 col-sm-12 col-md12" style="color: #000">
-                            {{oneRes.Name}}
+                            {{ oneRes.Name }}
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md12" style="color: #ec971f ">
-                            价格：{{oneRes.Price}}元
+                            价格：{{ oneRes.Price }}元
                         </div>
 
                         <div class="col-xs-12 col-sm-12 col-md12" style="color: #8c8c8c">
-                            浏览量：<span class="badge" style="font-size: 20px">{{oneRes.ViewCount}}</span>
+                            浏览量：<span class="badge" style="font-size: 20px">{{ oneRes.ViewCount }}</span>
                         </div>
 
                         <div class="col-xs-12 col-sm-12 col-md12" style="color: #8c8c8c">
-                            交易量：<span class="badge" style="font-size: 20px">{{oneRes.BuyCount}}</span>
+                            交易量：<span class="badge" style="font-size: 20px">{{ oneRes.BuyCount }}</span>
                         </div>
 
                         <div class="col-xs-12 col-sm-12 col-md12 img buy-center"
-                            style="">
+                             style="">
                             <img src="/static/Images/Icon/buy.jpg" class="img-circle" style="width: 60px;height: 40px"/>
                         </div>
                     </div>
@@ -286,7 +286,7 @@
     <div style="height: 100px;text-align: center;font-size: 4em;line-height: 100px">
         新闻中心
     </div>
-<div style="width: 100%;height: 20px;background-color: #8c8c8c"></div>
+    <div style="width: 100%;height: 20px;background-color: #8c8c8c"></div>
     <div class="container-fluid" style="border: hidden;margin-top: 30px;height: 160px">
         <div class="list-group" style="border: hidden;" id="newsList">
             {% for oneRecord in NewsDatas %}
@@ -324,16 +324,15 @@
 <div id="usercenter_div" hidden>
 
     <!--头像部分-->
-    <div class="user_div">
-        <img src="/static/Images/default.png" class="user_head" id="user_head" style="border-radius: 2pc">
-
+    <div class="user_div" style="height: 200px">
+        <img src="/static/Images/default.png" class="user_head" id="user_head"
+             style="width:140px;height:140px;border-radius: 30px;margin-top:30px;float:left;margin-left:30px">
         <div class="user_detail">
-            <div style="font-size: 3em;color: #111111;height: 100%;margin-top: 3pc" id="uName">未知用户</div>
+            <div style="font-size: 3em;color: #111111;line-height: 200px;" id="uName">未知用户</div>
         </div>
     </div>
-    <div style="margin-left: 20px;margin-top: 40px;font-size: 3em;color: #4f4d4f">订单中心</div>
     <!--粗分割div-->
-    <div class="seperatorDiv"></div>
+    <div class="seperatorDiv" style="background-color: #f3f3f3;"></div>
     <div>
         <div class="item_function"
              onclick="$.getMyOrder()">
@@ -342,7 +341,6 @@
             <img class="right_arrow" src="/static/Images/right.png">
         </div>
     </div>
-    <div style="margin-left: 20px;margin-top:40px;font-size: 3em;color: #4f4d4f">意见反馈</div>
     <div class="seperatorDiv"></div>
     <div>
         <div class="item_function"
@@ -353,7 +351,6 @@
         </div>
     </div>
 
-    <div style="margin-left: 20px;margin-top: 40px;font-size: 3em;color: #4f4d4f">商务合作</div>
     <div class="seperatorDiv"></div>
     <div>
         <div class="item_function"
@@ -363,6 +360,20 @@
             <img class="right_arrow" src="/static/Images/right.png">
         </div>
     </div>
+
+    {% if game_open == 1 %}
+
+        <div class="seperatorDiv"></div>
+        <div>
+            <div class="item_function"
+                 onclick="$.openENGame()">
+                <img class="itemLogo" src="/static/Images/hezuo.jpg">
+                <div class="itemTitle">游戏-背单词</div>
+                <img class="right_arrow" src="/static/Images/right.png">
+            </div>
+        </div>
+
+    {% endif %}
 </div>
 
 <div data-role="widget" data-widget="nav4" class="nav4">
@@ -391,27 +402,23 @@
     {#    </script>#}
 </div>
 
-    <script type="text/javascript">
-    	try
-   {
-{#       alert('abc');#}
+<script type="text/javascript">
+    try {
+        {#       alert('abc');#}
         var Dict = {{ wxInfo|safe }};
-{#        $.cookie("OpenId", Dict.OpenId);#}
-{#        $.cookie("WxName", Dict.WxName);#}
-{#        $.cookie("HeadImg", Dict.HeadImg);#}
-        if(typeof(Dict)=="undefined")
-        {
+        {#        $.cookie("OpenId", Dict.OpenId);#}
+        {#        $.cookie("WxName", Dict.WxName);#}
+        {#        $.cookie("HeadImg", Dict.HeadImg);#}
+        if (typeof(Dict) == "undefined") {
             alert("微信头像加载失败");
         }
-        else
-        {
-        $.setUserInfo(Dict.OpenId,Dict.WxName,Dict.HeadImg);
+        else {
+            $.setUserInfo(Dict.OpenId, Dict.WxName, Dict.HeadImg);
         }
-}
-catch(err)
-   {
-   	alert("微信头像加载失败2");
-  }
-   </script>
+    }
+    catch (err) {
+        alert("微信头像加载失败2");
+    }
+</script>
 </body>
 </html>

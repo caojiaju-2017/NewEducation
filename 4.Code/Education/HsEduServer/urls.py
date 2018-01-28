@@ -53,9 +53,10 @@ urlpatterns = [
     # url(r'^msg_subList.html',ChatApi.CommandDispatch),
     # url(r'^msg_view.html',ChatApi.CommandDispatch),
     url(r'^res_detail.html',CustomApi.CommandDispatch),
-    # url(r'^srv_detail.html',CustomApi.CommandDispatch),
+    url(r'^view_remark.html',CustomApi.CommandDispatch),
     # url(r'^view_remark.html',CustomApi.CommandDispatch),
 
+    url(r'^game_en.html',CustomApi.CommandDispatch),
     # 用户dns
     url(r'^res_order.html',CustomApi.CommandDispatch),
     url(r'^order_detail_info.html', CustomApi.CommandDispatch),

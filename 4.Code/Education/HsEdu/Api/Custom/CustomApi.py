@@ -35,8 +35,10 @@ class CustomApi(object):
             return CustomApi.SendSuggest(request)
         elif command == "Release_Suggest".upper():
             return CustomApi.ReleaseSuggest(request)
-        elif command == "View_MyCheck".upper():
-            return CustomApi.ViewMyCheck(request)
+        elif command == "Release_Remark".upper():
+            return CustomApi.ReleaseRemark(request)
+        elif command == "Open_ENGame".upper():
+            return CustomApi.OpenENGame(request)
         elif command == "View_MyOrganization".upper():
             return CustomApi.ViewMyOrganization(request)
         elif command == "View_Tasks".upper():
@@ -47,7 +49,8 @@ class CustomApi(object):
             return CustomApi.QueryNews(request)
         elif command == "WX_PAY_SUCCESS".upper():
             return CustomApi.WxPaySuccess(request)
-
+        elif command == "WX_PAY_SUCCESS".upper():
+            return CustomApi.WxPaySuccess(request)
     @staticmethod
     def WxPaySuccess(request):
         postDataList = {}
@@ -129,6 +132,18 @@ class CustomApi(object):
             renterDict['Res_Priv'] = 0
             renterDict['Priv_Title'] = "购买"
 
+        allRemarks = HsResRemark.objects.filter(rcode = code).order_by("reltime")
+        okRemarks = []
+        for one in allRemarks:
+            if one.type == 0:  #机器人的留言
+                okRemarks.append(one)
+                continue
+            if one.usercode != openid:
+                continue
+            okRemarks.append(one)
+
+        renterDict['Remark_Txt'] = len(okRemarks)
+
         return render(request, './home/res/res_detail.html', renterDict)
 
     @staticmethod
@@ -181,6 +196,25 @@ class CustomApi(object):
         loginResut = json.dumps({"ErrorInfo": "操作成功", "ErrorId": 200, "Result": resArray})
         return HttpResponse(loginResut)
 
+
+
+    @staticmethod
+    def OpenENGame(request):
+        if (not HsShareData.IsDebug):
+            url = "http://" + request.META['HTTP_HOST'] + request.META['PATH_INFO'] + request.META['QUERY_STRING']
+            img = qrcode.make(url)
+            img.save(os.path.join(os.path.join(STATIC_ROOT, "Images"), "erweima_img.png"))
+            return render(request, 'warning_notice.html', {"erweima_img": "/static/Images/erweima_img.png"})
+
+        openid = request.GET.get('openid')
+
+        renterDict={}
+        if openid == "oQE6Bt6PVtEL9XzfDSI_Xj0Ed0e8":
+            renterDict['game_open'] = 1
+        else:
+            renterDict['game_open'] = 0
+        return render(request, './home/game/game_en.html', renterDict)
+
     @staticmethod
     def Open_Remark(request):
         if (not HsShareData.IsDebug):
@@ -189,8 +223,41 @@ class CustomApi(object):
             img.save(os.path.join(os.path.join(STATIC_ROOT, "Images"), "erweima_img.png"))
             return render(request, 'warning_notice.html', {"erweima_img": "/static/Images/erweima_img.png"})
 
+        code = request.GET.get('code')
+        openid = request.GET.get('openid')
+
+        allRemarks = HsResRemark.objects.filter(rcode = code).order_by("reltime")
+
+        logger.error('allRemarks code=================%s====================' % code)
+        logger.error('allRemarks openid=================%s====================' % openid)
+        logger.error('allRemarks Result=================%d====================' % len(allRemarks))
+        okRemarks = []
+        for one in allRemarks:
+            if one.type == 0:  #机器人的留言
+                if one.usercode == openid:
+                    one.username = "我"
+                okRemarks.append(one)
+                continue
+            if one.usercode != openid:
+                continue
+
+            one.username = "我"
+            okRemarks.append(one)
         renterDict = {}
-        return render(request, './home/remark/view_remark.html', renterDict)
+
+        resultAarray = []
+        for index,oneRemark in enumerate(okRemarks):
+            onedict = {}
+            onedict["UserName"] = oneRemark.username
+            onedict["RemarkTime"] = oneRemark.reltime
+            onedict["Index"] = "第%d楼" % (index + 1)
+            onedict["Info"] = oneRemark.content
+            resultAarray.append(onedict)
+            
+        renterDict["RemarkInfos"]= resultAarray
+        renterDict["RCode"]= code
+
+        return render(request, './home/res/view_remark.html', renterDict)
 
     @staticmethod
     def Open_OrdersPage(request):
@@ -205,7 +272,7 @@ class CustomApi(object):
         except:
             openId = None
 
-        logger.error('WX OpenId=====================================' + openId)
+        # logger.error('WX OpenId=====================================' + openId)
         renterDict = {}
         resultList = []
 
@@ -322,7 +389,7 @@ class CustomApi(object):
             abc["Index"] = one.tindex
             abc["StepName"] = "第%d:" % (one.tindex + 1)
             abc["Title"] = one.title
-            abc["Info"] = one.info
+            abc["Info"] = one.info.replace("\n","<br/>").replace("<br/><br/>","<br/>")
             abc["Image"] = one.imagename
             arr.append(abc)
 
@@ -393,6 +460,58 @@ class CustomApi(object):
 
         commitDataList = []
         commitDataList.append(CommitData(newSuggest, 0))
+
+        # 事务提交
+        try:
+            result = commitCustomDataByTranslate(commitDataList)
+
+            if not result:
+                loginResut = json.dumps({"ErrorInfo": "数据库操作失败", "ErrorId": 99999, "Result": None})
+                return HttpResponse(loginResut)
+        except Exception, ex:
+            print ex
+            loginResut = json.dumps({"ErrorInfo": "数据库操作失败", "ErrorId": 99999, "Result": None})
+            return HttpResponse(loginResut)
+
+        loginResut = json.dumps({"ErrorInfo": "操作成功", "ErrorId": 200, "Result": None})
+        return HttpResponse(loginResut)
+
+
+
+    @staticmethod
+    def ReleaseRemark(request):
+        if (not HsShareData.IsDebug):
+            url = "http://" + request.META['HTTP_HOST'] + request.META['PATH_INFO'] + request.META['QUERY_STRING']
+            img = qrcode.make(url)
+            img.save(os.path.join(os.path.join(STATIC_ROOT, "Images"), "erweima_img.png"))
+            return render(request, 'warning_notice.html', {"erweima_img": "/static/Images/erweima_img.png"})
+
+        postDataList = {}
+        postDataList = getPostData(request)
+
+        openid = postDataList["openid".lower()].encode('utf-8')
+        body = postDataList["body".lower()].encode('utf-8')
+        rcode = postDataList["rcode".lower()].encode('utf-8')
+
+        logger.error('ReleaseRemark!=====================================' + rcode)
+
+        openIdHandle = HsCustom.objects.filter(wxaccount=openid).first()
+        userName = getRadomName(8)
+
+        if openIdHandle:
+            userName = openIdHandle.name
+
+        newRemark = HsResRemark()
+        newRemark.code = uuid.uuid1().__str__().replace("-", "")
+        newRemark.content = body
+        newRemark.rcode = rcode
+        newRemark.type = 1
+        newRemark.username = userName
+        newRemark.reltime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+        newRemark.usercode = openid
+
+        commitDataList = []
+        commitDataList.append(CommitData(newRemark, 0))
 
         # 事务提交
         try:

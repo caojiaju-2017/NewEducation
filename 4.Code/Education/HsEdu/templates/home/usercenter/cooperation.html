@@ -11,6 +11,22 @@
 <script src="/static/js/public/jquery.js"></script>
 <script src="/static/js/bootstrap.js"></script>
 
+<script type="text/javascript">
+$(document).ready(function(e) {
+            var counter = 0;
+            if (window.history && window.history.pushState) {
+                             $(window).on('popstate', function () {
+                                            window.history.pushState('forward', null, '#');
+                                            window.history.forward(1);
+                                          location.href='./wait.html?hidden=1'
+                                });
+              }
+
+              window.history.pushState('forward', null, '#'); //在IE中必须得有这两行
+              window.history.forward(1);
+});
+</script>
+
 {#  商务人士---微信二维码  #}
 <div class="container-fluid" style="margin-top: 20px">
     <div class="list-group">

@@ -79,13 +79,20 @@ class WebCenterApi(object):
             wxInfo["OpenId"] = openid
             wxInfo["WxName"] = nameUser
             wxInfo["HeadImg"] = imgUrl
-            # print "---------------------------------",type(openid)
-            # print "---------------------------------", type(nameUser)
-            # print "---------------------------------", type(imgUrl)
 
-            # logger.error('WX OpenId！=====================================' + openid )
-            # logger.error('WX WxName！=====================================' + nameUser)
-            # logger.error('WX HeadImg！====================================='+dict["HeadImg"])
+            # 添加到客户表
+            existCustomHandle = HsCustom.objects.filter(wxaccount=openid).first()
+            if not existCustomHandle:
+                newCustom = HsCustom()
+                newCustom.wxaccount = openid
+                newCustom.name = nameUser
+                newCustom.headimage = imgUrl
+            else:
+                newCustom = existCustomHandle
+                newCustom.name = nameUser
+                newCustom.headimage = imgUrl
+
+            newCustom.save()
         except Exception, e:
             logger.error('Something went wrong!====================================='+e.message)
             return render(request, 'index.html', dict)
@@ -146,6 +153,16 @@ class WebCenterApi(object):
                 rtnDict["title"] = "新闻分享"
                 rtnDict["context"] = "来自于汉森教育的新闻分享，关注官方微信公众号，可免费领取教学视频资源。"
                 rtnDict["image"] = "default.jpg"
+        elif cmd == "Open_Resource":
+            queryResource = HsResources.objects.all().filter(code=cmdcode).first()
+            if queryResource:
+                rtnDict["title"] = queryResource.restitle
+                rtnDict["context"] = queryResource.resinfo
+                rtnDict["image"] = "ResImage/" + queryResource.resimage
+            else:
+                rtnDict["title"] = "资源分享"
+                rtnDict["context"] = "来自于汉森教育的资源分享，关注官方微信公众号，可免费领取教学视频资源。"
+                rtnDict["image"] = "default.jpg"            
         else:
             rtnDict["title"] = "汉森资源分享"
             rtnDict["context"] = "来自于汉森教育的新闻分享，关注官方微信公众号，可免费领取教学视频资源。"
@@ -515,7 +532,13 @@ class WebCenterApi(object):
             img.save(os.path.join(os.path.join(STATIC_ROOT,"Images"),"erweima_img.png"))
             return render(request, 'warning_notice.html',{"erweima_img":"/static/Images/erweima_img.png"})
 
+        hidden = 0
+        try:
+            hidden = int(request.GET.get('hidden'))
+        except:
+            hidden = 0
         renterDict = {}
+        renterDict["hidden"] = hidden
         return render(request, 'wait.html',renterDict )
 
     # @staticmethod

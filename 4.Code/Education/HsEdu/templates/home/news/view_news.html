@@ -121,6 +121,20 @@
         });
     });
 
+
+$(document).ready(function(e) { 
+            var counter = 0;
+            if (window.history && window.history.pushState) {
+                             $(window).on('popstate', function () {
+                                            window.history.pushState('forward', null, '#');
+                                            window.history.forward(1);
+                                          location.href='./wait.html?hidden=1'
+                                });
+              }
+
+              window.history.pushState('forward', null, '#'); //在IE中必须得有这两行
+              window.history.forward(1);
+});
 </script>
 
 <!--title-->
@@ -155,12 +169,15 @@ margin-left: 35%;height: 80px;border-radius: 20px;margin-top: 20px" onclick="jav
             {% endif %}
                 <div class="panel-body" style="font-size:40px;color: #8c8c8c">
                     <!--标题文本-->
-                   {{oneRecord.Info}}
+                   {{ oneRecord.Info | safe }}
                 </div>
-                <div class="panel-body" style="text-align: center;">
-                    <!--标题配图-->
-                    <img src="/static/Images/newsPic/{{ oneRecord.Image }}" class="img-rounded">
-                </div>
+                
+                {% if oneRecord.Image != "" %}
+		                <div class="panel-body" style="text-align: center;">
+		                    <!--标题配图-->
+		                    <img src="/static/Images/newsPic/{{ oneRecord.Image }}" class="img-rounded" style="width:90%">
+		                </div>
+                {% endif %}
             </div>
         </div>
     {% endfor %}

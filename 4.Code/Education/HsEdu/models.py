@@ -91,7 +91,7 @@ class HsCustom(models.Model):
     id = models.AutoField(db_column='Id', primary_key=True)  # Field name made lowercase.
     wxaccount = models.CharField(db_column='WxAccount', max_length=64, blank=True, null=True)  # Field name made lowercase.
     name = models.CharField(db_column='Name', max_length=64, blank=True, null=True)  # Field name made lowercase.
-    HeadImage = models.CharField(db_column='Phone', max_length=2000, blank=True,null=True)  # Field name made lowercase.
+    headimage = models.CharField(db_column='HeadImage', max_length=2000, blank=True,null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -125,6 +125,19 @@ class HsSuggests(models.Model):
     class Meta:
         managed = False
         db_table = 'hs_suggests'
+
+class HsResRemark(models.Model):
+    id = models.AutoField(db_column='Id', primary_key=True)  # Field name made lowercase.
+    code = models.CharField(db_column='Code', unique=True, max_length=32, blank=True,null=True)  # Field name made lowercase.
+    rcode = models.CharField(db_column='RCode', unique=True, max_length=32, blank=True,null=True)  # Field name made lowercase.
+    content = models.TextField(db_column='Content', blank=True, null=True)  # Field name made lowercase.
+    usercode = models.CharField(db_column='UserCode', max_length=32, blank=True, null=True)  # Field name made lowercase.
+    username = models.CharField(db_column='UserName', max_length=64, blank=True,null=True)  # Field name made lowercase.
+    reltime = models.DateTimeField(db_column='RelTime', blank=True, null=True)  # Field name made lowercase.
+    type = models.IntegerField(db_column='Type', blank=True, null=True)  # Field name made lowercase.
+    class Meta:
+        managed = False
+        db_table = 'hs_res_remark'
 
 
 class HsSysConfig(models.Model):
